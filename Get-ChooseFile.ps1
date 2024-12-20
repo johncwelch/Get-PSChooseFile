@@ -13,7 +13,7 @@ function Get-ChooseFile {
           [Parameter(Mandatory = $false)][string] $defaultLocation, #the dictionary says this has to be an alias, setting it to POSIX file works too. 
           [Parameter(Mandatory = $false)][bool] $showInvisibles, #the default is false, so we only care if it's true
           [Parameter(Mandatory = $false)][bool] $multipleSelectionsAllowed, #same as for show invisibles
-          [Parameter(Mandatory = $false)][string[]] $fileTypes, #this is going to be an array of custom objects
+          [Parameter(Mandatory = $false)][string[]] $fileTypes, #this is going to be an array
           [Parameter(Mandatory = $false)][bool] $showPackageContents, #default is false
           [Parameter(Mandatory = $false)][string] $chooseFilePrompt #optional, default is nothing
      )
@@ -192,7 +192,8 @@ foreach($item in $sourceFileTypeArray) {
 ## of the command in powershell
 
 #build the command
-$chooseFileCommand = Get-ChooseFile -multipleSelectionsAllowed $true
+$chooseFileCommand = Get-ChooseFile -chooseFilePrompt "Choose a file or files" -fileTypes "word", "pdf" -multipleSelectionsAllowed $true -defaultLocation "/users/jwelch/Desktop" -showInvisibles $true -showPackageContents $true
+write-output $chooseFileCommand
 #run the command
 $chooseFileString = $chooseFileCommand|/usr/bin/osascript -so
 
