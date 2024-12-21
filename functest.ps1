@@ -36,102 +36,174 @@ $sourceFileTypeArray = @("jpg","jpeg","doc","docx","xls","xlsx","ppt","pptx","pd
 foreach($item in $sourceFileTypeArray) {
      #the pipe to out-null avoids the spurious array index output. If I find a more elegant way to handle it, i will
      #deal with the jpeg/jpeg issue. This does create duplicate entries, but it shouldn't be a problem for us
-     if($item -eq "jpg") {
 
-          $fileTypeItem = @([fileType]::new($item,"public.jpeg"))
-          $fileTypeArrayList.Add($fileTypeItem) |Out-Null
+	switch ($item) {
+		"jpg" {  
+			$fileTypeItem = @([fileType]::new($item,"public.jpeg"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-          #continue is needed to avoid spurious entry in array
-          continue 
-     }
+		"jpeg" {  
+			$fileTypeItem = @([fileType]::new($item,"public.jpeg"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "jpeg") {
-          $fileTypeItem = @([fileType]::new($item,"public.jpeg"))
-          $fileTypeArrayList.Add($fileTypeItem) |Out-Null
-          
-          #continue is needed to avoid spurious entry in array
-          continue 
-     }
+		"doc" {  
+			$fileTypeItem = @([fileType]::new($item,"com.microsoft.word.doc"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     #now other cases where the app is the file, so word for docx, powerpoint for pptx, photoshop for psd, etc.
-     #we are not going to try to decode stuff like "adobe". This is one of the advantages of a list of classes instead of 
-     #a hashtable. Having multiple entries where the key is the same, i.e. word for doc and docx would not be allowed in 
-     #a hashtable, since the keys have to be unique. With our method, it's not a problem.
+		"docx" {  
+			$fileTypeItem = @([fileType]::new($item,"org.openxmlformats.wordprocessingml.document"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "doc") {
-          $fileTypeItem = @([fileType]::new($item,"com.microsoft.word.doc"))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          #continue is needed to avoid spurious entry in array
-          continue
-     }
+		"xls" {  
+			$fileTypeItem = @([fileType]::new($item,"com.microsoft.excel.xls"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "docx") {
-          $fileTypeItem = @([fileType]::new($item,"org.openxmlformats.wordprocessingml.document"))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          #continue is needed to avoid spurious entry in array
-          continue
-     }
-     
-     if($item -eq "xls") {
-          $fileTypeItem = @([fileType]::new($item,"com.microsoft.excel.xls"))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          #continue is needed to avoid spurious entry in array
-          continue
-     }
+		"xlsx" {  
+			$fileTypeItem = @([fileType]::new($item,"org.openxmlformats.spreadsheetml.sheet"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "xlsx") {
-          $fileTypeItem = @([fileType]::new($item,"org.openxmlformats.spreadsheetml.sheet"))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          #continue is needed to avoid spurious entry in array
-          continue
-     }
+		"ppt" {  
+			$fileTypeItem = @([fileType]::new($item,"com.microsoft.powerpoint.ppt"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "ppt") {
-          $fileTypeItem = @([fileType]::new("ppt",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          $fileTypeItem = @([fileType]::new("powerpoint",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-     }
+		"pptx" {  
+			$fileTypeItem = @([fileType]::new($item,"org.openxmlformats.presentationml.presentation"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "pptx") {
-          $fileTypeItem = @([fileType]::new("pptx",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          $fileTypeItem = @([fileType]::new("powerpoint",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-     }
-     
-     if($item -eq "pdf") {
-          $fileTypeItem = @([fileType]::new("pdf",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          $fileTypeItem = @([fileType]::new("acrobat",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-     }
-     
-     if($item -eq "psd") {
-          $fileTypeItem = @([fileType]::new("psd",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          $fileTypeItem = @([fileType]::new("photoshop",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-     }
+		"pdf" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.pdf"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "indd") {
-          $fileTypeItem = @([fileType]::new("indd",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          $fileTypeItem = @([fileType]::new("indesign",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-     }
+		"psd" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.photoshop-image"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     if($item -eq "ai") {
-          $fileTypeItem = @([fileType]::new("ai",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-          $fileTypeItem = @([fileType]::new("illustrator",$item))
-          $fileTypeArrayList.Add($fileTypeItem) | Out-Null
-     }
+		"indd" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.photoshop-image"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
 
-     #everything else just uses the type as the name. So adding a new type that doesn't have multiple names is
-     #as easy as adding a new item in the array
-     $fileTypeItem = @([fileType]::new($item,$item))
-     $fileTypeArrayList.Add($fileTypeItem) | Out-Null
+		"ai" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.illustrator.ai-image"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"gif" {  
+			$fileTypeItem = @([fileType]::new($item,"com.compuserve.gif"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"png" {  
+			$fileTypeItem = @([fileType]::new($item,"public.png"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"mpeg" {  
+			$fileTypeItem = @([fileType]::new($item,"public.mpeg"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"mp3" {  
+			$fileTypeItem = @([fileType]::new($item,"public.mp3"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"m4a" {  
+			$fileTypeItem = @([fileType]::new($item,"public.mpeg-4-audio"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"mp4" {  
+			$fileTypeItem = @([fileType]::new($item,"public.mpeg-4"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"aiff" {  
+			$fileTypeItem = @([fileType]::new($item,"public.aiff-audio"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"heic" {  
+			$fileTypeItem = @([fileType]::new($item,"public.heic"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"pages" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.iwork.pages.sffpages"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"key" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.iwork.keynote.sffkey"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"keynote" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.iwork.keynote.sffkey"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"numbers" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.iwork.numbers.sffnumbers"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"epub" {  
+			$fileTypeItem = @([fileType]::new($item,"org.idpf.epub-container"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"ibooks" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.ibooks.epub"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"rtf" {  
+			$fileTypeItem = @([fileType]::new($item,"public.rtf"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"applescript" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.applescript.text"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+		
+		"scpt" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.applescript.script"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"script" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.applescript.script"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+
+		"scptd" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.applescript.script-bundle"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"sh" {  
+			$fileTypeItem = @([fileType]::new($item,"public.shell-script"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		<# Default {
+			$fileTypeItem = @([fileType]::new(" "," "))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		} #>
+	}
 }
 
 testFunc
