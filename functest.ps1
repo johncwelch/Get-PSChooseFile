@@ -5,7 +5,7 @@ function testFunc {
      $myList = $Global:fileTypeArrayList 
 
      $myList
-     
+	Write-Output "`r" $myList.count     
 }
 
 #create an empty arraylist, which is a mutable array that we can add into, remove from without having to do
@@ -30,7 +30,7 @@ class fileType {
 }
 
 #the order of the array is somewhat important, dealing with common special cases first
-$sourceFileTypeArray = @("jpg","jpeg","doc","docx","xls","xlsx","ppt","pptx","pdf","psd","indd","ai","gif","png","mpeg","mp3","mp4","m4a","aiff","heic","pages","key","keynote","numbers","epub","ibooks","rtf","applescript","scpt","scptd","script","sh","py","pl","ps1","url","zip","app","pxm","der","p7c","pem","crt","cer","txt","text","vcf","ics","html","htm","sql","webloc","plist","workflow","lz4","json","csv","tsv","sqlite","dat","osax","xcodeproj","swift","entitlements","xcassets","colorset","hmap","yaml","dep","h","c","cpp","d","dia","xib","lproj","m","strings","build","pbindex","o","linkfilelist")
+$sourceFileTypeArray = @("jpg","jpeg","doc","docx","xls","xlsx","ppt","pptx","pdf","acrobat","psd","photoshop","indd","indesign","ai","illustrator","gif","png","mpeg","mp3","mp4","m4a","aiff","heic","pages","key","keynote","numbers","epub","ibooks","rtf","applescript","scpt","scptd","script","sh","py","pl","ps1","url","zip","app","pxm","der","p7c","pem","crt","cer","txt","text","vcf","ics","html","htm","sql","webloc","plist","workflow","lz4","json","csv","tsv","sqlite","dat","osax","xcodeproj","swift","entitlements","xcassets","colorset","hmap","yaml","dep","h","c","cpp","d","dia","xib","lproj","m","strings","build","pbindex","o","linkfilelist")
 
 #build our array of filetype classes
 foreach($item in $sourceFileTypeArray) {
@@ -83,17 +83,37 @@ foreach($item in $sourceFileTypeArray) {
 			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
 		}
 
+		"acrobat" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.pdf"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
 		"psd" {  
 			$fileTypeItem = @([fileType]::new($item,"com.adobe.photoshop-image"))
 			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
 		}
 
-		"indd" {  
+		"photoshop" {  
 			$fileTypeItem = @([fileType]::new($item,"com.adobe.photoshop-image"))
 			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
 		}
 
+		"indd" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.indesign-document"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"indesign" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.indesign-document"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
 		"ai" {  
+			$fileTypeItem = @([fileType]::new($item,"com.adobe.illustrator.ai-image"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"illustrator" {  
 			$fileTypeItem = @([fileType]::new($item,"com.adobe.illustrator.ai-image"))
 			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
 		}
