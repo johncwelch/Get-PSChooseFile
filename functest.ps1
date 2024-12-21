@@ -30,7 +30,7 @@ class fileType {
 }
 
 #the order of the array is somewhat important, dealing with common special cases first
-$sourceFileTypeArray = @("jpg","jpeg","doc","docx","xls","xlsx","ppt","pptx","pdf","acrobat","psd","photoshop","indd","indesign","ai","illustrator","gif","png","mpeg","mp3","mp4","m4a","aiff","heic","pages","key","keynote","numbers","epub","ibooks","rtf","applescript","scpt","scptd","script","sh","py","pl","ps1","url","zip","app","pxm","der","p7c","pem","crt","cer","txt","text","vcf","ics","html","htm","sql","webloc","plist","workflow","lz4","json","csv","tsv","sqlite","dat","osax","xcodeproj","swift","entitlements","xcassets","colorset","hmap","yaml","dep","h","c","cpp","d","dia","xib","lproj","m","strings","build","pbindex","o","linkfilelist")
+$sourceFileTypeArray = @("jpg","jpeg","doc","docx","xls","xlsx","ppt","pptx","pdf","acrobat","psd","photoshop","indd","indesign","ai","illustrator","gif","png","mpeg","mp3","mp4","m4a","aiff","heic","pages","key","keynote","numbers","epub","ibooks","rtf","applescript","scpt","scptd","script","sh","py","pl","ps1","url","zip","app","der","pem","crt","cer","txt","text","vcf","ics","html","htm","sql","webloc","plist","workflow","lz4","json","csv","tsv","sqlite","dat","osax","xcodeproj","swift","entitlements","xcassets","colorset","hmap","yaml","dep","h","c","cpp","d","dia","xib","lproj","m","strings","build","pbindex","o","linkfilelist")
 
 #build our array of filetype classes
 foreach($item in $sourceFileTypeArray) {
@@ -216,6 +216,66 @@ foreach($item in $sourceFileTypeArray) {
 
 		"sh" {  
 			$fileTypeItem = @([fileType]::new($item,"public.shell-script"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"py" {  
+			$fileTypeItem = @([fileType]::new($item,"public.python-script"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"pl" {  
+			$fileTypeItem = @([fileType]::new($item,"public.perl-script"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"ps1" {  
+			$fileTypeItem = @([fileType]::new($item,"dyn.ah62d4rv4ge81a63v"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"url" {  
+			$fileTypeItem = @([fileType]::new($item,"public.url"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"zip" {  
+			$fileTypeItem = @([fileType]::new($item,"public.zip-archive"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"app" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.application-bundle"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"der" {  
+			$fileTypeItem = @([fileType]::new($item,"public.x509-certificate"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"crt" {  
+			$fileTypeItem = @([fileType]::new($item,"public.x509-certificate"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"txt" {  
+			$fileTypeItem = @([fileType]::new($item,"public.plain-text"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"text" {  
+			$fileTypeItem = @([fileType]::new($item,"public.plain-text"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"vcf" {  
+			$fileTypeItem = @([fileType]::new($item,"public.vcard"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"ics" {  
+			$fileTypeItem = @([fileType]::new($item,"com.apple.ical.ics"))
 			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
 		}
 
