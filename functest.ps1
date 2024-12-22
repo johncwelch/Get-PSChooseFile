@@ -30,7 +30,7 @@ class fileType {
 }
 
 #the order of the array is somewhat important, dealing with common special cases first
-$sourceFileTypeArray = @("jpg","jpeg","doc","docx","xls","xlsx","ppt","pptx","pdf","acrobat","psd","photoshop","indd","indesign","ai","illustrator","gif","png","mpeg","mp3","mp4","m4a","aiff","wav","heic","pages","key","keynote","numbers","epub","ibooks","rtf","rtfd","applescript","scpt","scptd","script","sh","py","pl","ps1","url","zip","app","der","pem","crt","cer","txt","text","vcf","ics","html","htm","sql","webloc","plist","workflow","lz4","json","csv","tsv","sqlite","dat","osax","xcodeproj","swift","entitlements","xcassets","colorset","hmap","yaml","dep","h","c","cpp","d","dia","xib","lproj","m","strings","build","pbindex","o","linkfilelist")
+$sourceFileTypeArray = @("jpg","jpeg","doc","docx","xls","xlsx","ppt","pptx","pdf","acrobat","psd","photoshop","indd","indesign","ai","illustrator","gif","png","mpeg","mp3","mp4","m4a","aiff","wav","heic","pages","key","keynote","numbers","epub","ibooks","rtf","rtfd","applescript","scpt","scptd","script","sh","py","pl","ps1","url","zip","app","der","pem","crt","cer","p7c","cert","txt","text","vcf","ics","html","htm","sql","webloc","plist","workflow","lz4","json","csv","tsv","sqlite","dat","osax","xcodeproj","swift","entitlements","xcassets","colorset","hmap","yaml","dep","h","c","cpp","d","dia","xib","lproj","m","strings","build","pbindex","o","linkfilelist")
 
 #build our array of filetype classes
 foreach($item in $sourceFileTypeArray) {
@@ -266,6 +266,21 @@ foreach($item in $sourceFileTypeArray) {
 		}
 
 		"crt" {  
+			$fileTypeItem = @([fileType]::new($item,"public.x509-certificate"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"p7c" {  
+			$fileTypeItem = @([fileType]::new($item,"public.x509-certificate"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"cer" {  
+			$fileTypeItem = @([fileType]::new($item,"public.x509-certificate"))
+			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
+		}
+
+		"cert" {  
 			$fileTypeItem = @([fileType]::new($item,"public.x509-certificate"))
 			$fileTypeArrayList.Add($fileTypeItem) |Out-Null
 		}
