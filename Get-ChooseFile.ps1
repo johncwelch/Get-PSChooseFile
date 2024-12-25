@@ -192,7 +192,7 @@ foreach($item in $sourceFileTypeArray) {
 ## of the command in powershell
 
 #build the command
-$chooseFileCommand = Get-ChooseFile -chooseFilePrompt "Choose a file or files" -fileTypes "word", "pdf" -multipleSelectionsAllowed $true -defaultLocation "/users/jwelch/Desktop" -showInvisibles $true -showPackageContents $true
+$chooseFileCommand = Get-ChooseFile -chooseFilePrompt "Choose a file or files" -multipleSelectionsAllowed $true -defaultLocation "/users/jwelch/Desktop" -showInvisibles $true -showPackageContents $true
 write-output $chooseFileCommand
 #run the command
 $chooseFileString = $chooseFileCommand|/usr/bin/osascript -so
