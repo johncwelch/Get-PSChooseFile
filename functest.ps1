@@ -1,15 +1,49 @@
 function testFunc {
+	Param (
+		[Parameter(Mandatory = $false)][string[]] $fileTypes
+	)
+
+	#set up the array list for our list of type identifiers that we'll need to build our AppleScript list
+	#using arraylist so we can take advantage of .add(). Yes I know, it's deprecated. I'll care when I fine
+	#out it's actually going away. It's been deprecated for YEARS. 
+	[System.Collections.ArrayList]$typeIdentifierList=@()
+
      #so this line lets me avoid scope issues, and having to pass the filetypearraylist to the function, which
      #would be annoying in our final module. By adding $Global: to the front of the array list variable, we can
      #make a local reference to it, and just use it in the function, which normally would be out of scope.
      $myList = $Global:fileTypeArrayList 
+	
+	#we only really care if there's more than zero items in $fileTypes
+	if ($fileTypes.Count -gt 0) {
 
-	#where-object is how to search the array
-	$testArray = $myList|Where-Object {$_.name -eq 'tiff'}
-	$testArray
+		#this set of loops does two things. The out loop goes through filetypes and gets the type identifiers associated 
+		#with that extension or file type. Since the result of the Where-Object is an array, to avoid using an array of arrays
+		#the inner loop steps through each of the items in $typeIdentifier and adds that to $typeIdentifierList
+		foreach ($fileType in $fileTypes) {
+			$typeIdentifier = $myList|Where-Object {$_.name -eq $fileType}
+			foreach ($item in $typeIdentifier) {
+				$typeIdentifierList.Add($item)|Out-Null
+			}
+		}
+		
+		#now we build the applescript list of type identifiers
+		$typeIdentifierASList = "{"
 
-     #$myList
-	#Write-Output "`r" $myList.count     
+		#loop through $typeIdentifierList and add the type (identifier) of each entry on to the end of the list,
+		#with a trailing comma
+		foreach($item in $typeIdentifierList) {
+			#$item.type 
+			$typeIdentifierASList = $typeIdentifierASList + "`"" + $item.type +"`","
+		}
+		
+		#since we'll always have a spurious trailing comma, we trim that off the end of the string
+		$typeIdentifierASList = $typeIdentifierASList.TrimEnd(",")
+
+		#and add on the closing brace and we're done
+		$typeIdentifierASList = $typeIdentifierASList + "}"
+		
+		$typeIdentifierASList
+	}
 }
 
 #create an empty arraylist, which is a mutable array that we can add into, remove from without having to do
@@ -7201,4 +7235,5 @@ foreach($item in $sourceFileTypeArray) {
 	}
 }
 
-testFunc
+testFunc -fileTypes "tiff","jpeg","pdf"
+#testFunc
