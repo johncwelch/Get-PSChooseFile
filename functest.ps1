@@ -2,7 +2,7 @@ function testFunc {
 	Param (
 		[Parameter(Mandatory = $false)][string[]] $fileTypes
 	)
-
+	
 	#set up the array list for our list of type identifiers that we'll need to build our AppleScript list
 	#using arraylist so we can take advantage of .add(). Yes I know, it's deprecated. I'll care when I fine
 	#out it's actually going away. It's been deprecated for YEARS. 
@@ -11,7 +11,7 @@ function testFunc {
      #so this line lets me avoid scope issues, and having to pass the filetypearraylist to the function, which
      #would be annoying in our final module. By adding $Global: to the front of the array list variable, we can
      #make a local reference to it, and just use it in the function, which normally would be out of scope.
-     $myList = $Global:fileTypeArrayList 
+     #$myList = $Global:fileTypeArrayList 
 	
 	#we only really care if there's more than zero items in $fileTypes
 	if ($fileTypes.Count -gt 0) {
@@ -20,7 +20,7 @@ function testFunc {
 		#with that extension or file type. Since the result of the Where-Object is an array, to avoid using an array of arrays
 		#the inner loop steps through each of the items in $typeIdentifier and adds that to $typeIdentifierList
 		foreach ($fileType in $fileTypes) {
-			$typeIdentifier = $myList|Where-Object {$_.name -eq $fileType}
+			$typeIdentifier = $fileTypeArrayList|Where-Object {$_.name -eq $fileType}
 			foreach ($item in $typeIdentifier) {
 				$typeIdentifierList.Add($item)|Out-Null
 			}
@@ -41,15 +41,17 @@ function testFunc {
 
 		#and add on the closing brace and we're done
 		$typeIdentifierASList = $typeIdentifierASList + "}"
-		
-		$typeIdentifierASList
+		#write-host "the applescript list is: " $typeIdentifierASList
+
+		#return $typeIdentifierASList
+		return $typeIdentifierASList
 	}
 }
 
 #create an empty arraylist, which is a mutable array that we can add into, remove from without having to do
 #massive copies of the whole thing. *technically* this should be a generic list as arraylists are "deprecated"
 #but given MS, we'll all be dead before they actually remove it
-[System.Collections.ArrayList]$fileTypeArrayList=@()
+$Global:fileTypeArrayList = New-Object System.Collections.ArrayList
 
 #a custom class to hold the filetype name and type. While technically, we could use a hashlist for this, but because we can
 #have dupes in some cases, working around that in a hashlist gets awkward. A custom class gives us flexibility and
@@ -7235,5 +7237,38 @@ foreach($item in $sourceFileTypeArray) {
 	}
 }
 
-testFunc -fileTypes "tiff","jpeg","pdf"
-#testFunc
+$test = testFunc -fileTypes "tiff","jpeg","pdf","docx"
+
+$chooseFileCommand = "choose file with multiple selections allowed of type " + $test
+
+$chooseFileString = $chooseFileCommand|/usr/bin/osascript -so
+
+#deal with cancel
+if($chooseFileString.Contains("execution error: User canceled. `(-128`)")) {
+     #Write-Output "user hit cancel button"
+     return "userCancelError"
+}
+
+#$chooseFileString = $testCommand|/usr/bin/osascript -so
+$chooseFileArray = $chooseFileString.Split(",")
+
+#we need an arrayList here to shove the processed entries into
+[System.Collections.ArrayList]$chooseFileArrayList = @()
+
+#process the array removing spurious spaces and "alias "
+foreach($item in $chooseFileArray){
+     #remove any leading/trailing spaces
+     $item = $item.Trim()
+     #remove the leading "alias "
+     $item = $item.Substring(6)
+     #build the command to get the posix path. When expanded, $item has to be in quotes, so escaped quotes required
+     $thePOSIXPathCommand = "get POSIX path of `"$item`""
+     #run the command and get the posix path
+     $item = $thePOSIXPathCommand|/usr/bin/osascript -so
+     #add onto the arraylist
+     $chooseFileArrayList.Add($item) |Out-Null
+}
+
+#this is what we'd return
+$chooseFileArrayList
+
