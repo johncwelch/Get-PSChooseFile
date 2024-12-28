@@ -1004,6 +1004,14 @@ function testFunc {
 					$fileTypeArrayList.Add("org.strictopenxmlformats.wordprocessingml.document") |Out-Null
 				}
 
+				"Word" {
+					$fileTypeArrayList.Add("com.microsoft.word.strictopenxmlformats.wordprocessingml.document") |Out-Null
+
+					$fileTypeArrayList.Add("org.openxmlformats.wordprocessingml.document") |Out-Null
+
+					$fileTypeArrayList.Add("org.strictopenxmlformats.wordprocessingml.document") |Out-Null
+				}
+
 				"dot" {
 					$fileTypeArrayList.Add("com.microsoft.word.dot") |Out-Null
 				}
@@ -2634,6 +2642,14 @@ function testFunc {
 					$fileTypeArrayList.Add("public.movie") |Out-Null
 				}
 
+				"quicktime" {
+					$fileTypeArrayList.Add("com.apple.private.photos.mail-movie-export") |Out-Null
+
+					$fileTypeArrayList.Add("com.microsoft.ppt.export.mov") |Out-Null
+
+					$fileTypeArrayList.Add("public.movie") |Out-Null
+				}
+
 				"movpkg" {
 					$fileTypeArrayList.Add("com.apple.tv.movpkg") |Out-Null
 				}
@@ -3487,6 +3503,12 @@ function testFunc {
 				}
 
 				"pptx" {
+					$fileTypeArrayList.Add("com.microsoft.powerpoint.openxmlformats.presentationml.presentation") |Out-Null
+
+					$fileTypeArrayList.Add("org.openxmlformats.presentationml.presentation") |Out-Null
+				}
+
+				"powerpoint" {
 					$fileTypeArrayList.Add("com.microsoft.powerpoint.openxmlformats.presentationml.presentation") |Out-Null
 
 					$fileTypeArrayList.Add("org.openxmlformats.presentationml.presentation") |Out-Null
@@ -5480,6 +5502,14 @@ function testFunc {
 				}
 
 				"xlsx" {
+					$fileTypeArrayList.Add("com.microsoft.excel.openxmlformats.spreadsheetml.sheet") |Out-Null
+
+					$fileTypeArrayList.Add("com.microsoft.excel.pref") |Out-Null
+
+					$fileTypeArrayList.Add("org.openxmlformats.spreadsheetml.sheet") |Out-Null
+				}
+
+				"excel" {
 					$fileTypeArrayList.Add("com.microsoft.excel.openxmlformats.spreadsheetml.sheet") |Out-Null
 
 					$fileTypeArrayList.Add("com.microsoft.excel.pref") |Out-Null
