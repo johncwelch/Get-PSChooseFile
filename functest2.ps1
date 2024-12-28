@@ -5626,8 +5626,8 @@ function testFunc {
 
 $test = testFunc -fileTypes "tiff","jpeg","pdf","docx"
 
-Write-Output "the list of type identifiers is: " $test
-exit
+#Write-Output "the list of type identifiers is: " $test
+#exit
 
 $chooseFileCommand = "choose file with multiple selections allowed of type " + $test
 
@@ -5660,5 +5660,5 @@ foreach($item in $chooseFileArray){
 }
 
 #this is what we'd return
-#$chooseFileArrayList
+$chooseFileArrayList
 
