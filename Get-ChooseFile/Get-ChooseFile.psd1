@@ -80,10 +80,10 @@
 			Tags = @("macOS","Mac","choose_file","AppleScript","AppleScript_Bridge")
     
 			# A URL to the license for this module.
-			LicenseUri = 'https://github.com/johncwelch/Get-PSDisplayDialog/blob/main/LICENSE.txt'
+			LicenseUri = 'https://github.com/johncwelch/Get-PSChooseFile/blob/main/LICENSE.txt'
     
 			# A URL to the main website for this project.
-			ProjectUri = 'https://github.com/johncwelch/Get-PSDisplayDialog'
+			ProjectUri = 'https://github.com/johncwelch/Get-PSChooseFile'
     
 			# A URL to an icon representing this module.
 			# IconUri = ''
@@ -105,7 +105,7 @@
 	} # End of PrivateData hashtable
     
 	# HelpInfo URI of this module
-	HelpInfoURI = 'https://github.com/johncwelch/Get-PSDisplayDialog/wiki'
+	HelpInfoURI = 'https://github.com/johncwelch/Get-PSChooseFile/wiki'
     
 	# Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
 	# DefaultCommandPrefix = ''
