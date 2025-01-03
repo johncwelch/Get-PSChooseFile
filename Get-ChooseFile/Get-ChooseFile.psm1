@@ -5653,7 +5653,7 @@ function buildASTypeIdentifierList {
 		return $typeIdentifierASList
 	}
 }
-function Get-DisplayDialog {
+function Get-ChooseFile {
 	Param (
 		[Parameter(Mandatory = $false)][string] $chooseFilePrompt, #optional, default is nothing
 		[Parameter(Mandatory = $false)][string] $defaultLocation, #the dictionary says this has to be an alias, setting it to POSIX file works too. 
@@ -5746,3 +5746,5 @@ function Get-DisplayDialog {
 	#this is what we return
 	return $chooseFileArrayList
 }
+
+Export-ModuleMember -Function Get-ChooseFile
