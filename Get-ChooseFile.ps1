@@ -5698,26 +5698,26 @@ function buildChooseFileCommand {
           $chooseFileCommand = $chooseFileCommand + "with invisibles "
      }
 
-     if($multipleSelectionsAllowed) {
-          #multiple selections allowed is true. This syntax seems awkward, but you can have multiple boolean "with" clauses in 
-          #a choose file statement. It works for osascript and it's quite consistent.
-          $chooseFileCommand = $chooseFileCommand + "with multiple selections allowed "
-     }
+	if($multipleSelectionsAllowed) {
+		#multiple selections allowed is true. This syntax seems awkward, but you can have multiple boolean "with" clauses in 
+		#a choose file statement. It works for osascript and it's quite consistent.
+		$chooseFileCommand = $chooseFileCommand + "with multiple selections allowed "
+	}
 
-     #if it's zero, we don't care
-     if($fileTypes.Count -gt 0) {
-          
-          #get the AppleScript List of Type Identifiers
-          $appleScriptTypeIdentifierList = buildASTypeIdentifierList -fileTypes $fileTypes
+	#if it's zero, we don't care
+	if($fileTypes.Count -gt 0) {
+		
+		#get the AppleScript List of Type Identifiers
+		$appleScriptTypeIdentifierList = buildASTypeIdentifierList -fileTypes $fileTypes
 
-          #add this to the choose file command
-          $chooseFileCommand = $chooseFileCommand + "of type $appleScriptTypeIdentifierList "
-     } 
+		#add this to the choose file command
+		$chooseFileCommand = $chooseFileCommand + "of type $appleScriptTypeIdentifierList "
+	} 
 
-     if($showPackageContents) {
-          #we only care if showing package contents is true, the default is false, so we don't need to gode for that
-          $chooseFileCommand = $chooseFileCommand + "with showing package contents "
-     }
+	if($showPackageContents) {
+		#we only care if showing package contents is true, the default is false, so we don't need to gode for that
+		$chooseFileCommand = $chooseFileCommand + "with showing package contents "
+	}
 
      #return the command
      return $chooseFileCommand
@@ -5748,7 +5748,9 @@ if($chooseFileString.Contains("execution error: User canceled. `(-128`)")) {
 
 #build the output array
 $chooseFileArray = $chooseFileString.Split(",")
-#we need an arrayList here to shove the processed entries into
+#we need an arrayList here to shove the processed entries into.
+#we have to use a separate arraylist,
+#since we can't modify an array we're iterating through
 [System.Collections.ArrayList]$chooseFileArrayList = @()
 
 #process the array removing spurious spaces and "alias "
