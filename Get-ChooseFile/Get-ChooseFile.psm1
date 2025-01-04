@@ -35,9 +35,11 @@ Note that PowerShell is case insensitive, so the parameters are as well
 Basic Choose File: Get-ChooseFile
 That will give you a dialog that lets you choose a single file
 
+.EXAMPLE
 Choose File with custom prompt: 
      Get-ChooseFile -chooseFilePrompt "My Custom Prompt"
 
+.EXAMPLE
 Choose file starting in a specified folder: 
      Get-ChooseFile -defaultLocation "Some unix path"
 Note that with the default location parameter, you shouldn't have to escape spaces, single quotes
@@ -53,22 +55,45 @@ and pass the string: "/Users/username/Pictures/Bill\"s amazing pictures" to the 
 Try to avoid this, but if you can't, then the order is "PowerShell escape the string so Powershell 
 passes a Unix-escaped string to the Unix command". If it makes your head hurt, JOIN THE CLUB
 
+.EXAMPLE
 Choose file showing invisible files:
      Get-ChooseFile -showInvisibles $true
 The default for show invisibles is false. Note that in PowerShell, $true is True, $false is False
 using those without the $ will create a null-valued expression. The $ is IMPORTANT for bools
 
+.EXAMPLE
 Choose file allowing multiple selections:
      Get-ChooseFile -multipleSelectionsAllowed $true
 The default is false, it's a bool, so $true/$false
 
+.EXAMPLE
 Choose file filtering by specific file types:
      Get-ChooseFile -fileTypes "pdf","word","tiff"
 The default is nothing. This is actually a string array, so make this easy on yourself and don't
 get too clever. The thing you want to pass is either the filename extension without the dot,
 so "tiff" or "jpeg" or "mp3". You can in some cases pass old school file types like "W8BN" for
-pre-xml word files, etc. There's a CSV with the full list of extensions this suppors
+pre-xml word files, etc. There's a CSV with the full list of extensions this supports at:
+https://github.com/johncwelch/Get-PSChooseFile/blob/main/typeidentifierlist.csv, the first column
+is the filename extension or file type. There's a few "Common" things as well, like "Acrobat"
+"Photoshop", "Word" and similar. If you enter one that isn't supported, it just won't work.
 
+Also note that an extension can have multiple Type Identifiers, xls has NINE.
+
+.EXAMPLE
+Choose File and allow seeing the inside of packages
+     Get-ChooseFile -showPackageContents $true
+As with the other bools, the default is false, $true/$false to correctly set. This is mainly
+if you want to get paths inside of macOS packages, i.e. Application Packages. By default,
+selecting an application file would return a path to that app, so /Applications/Microsoft Word.
+Setting this to true lets you see inside the application bundle and select file(s) inside that
+
+.NOTES
+You can mix and match the parameters as you like. 
+
+In all cases, you either get an array of strings that are Posix paths or the userCancelError string
+
+.LINK
+https://github.com/johncwelch/Get-PSChooseFile
 #>
 
 function buildASTypeIdentifierList {
