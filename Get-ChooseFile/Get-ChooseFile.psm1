@@ -2,9 +2,7 @@
 
 <#
 .SYNOPSIS
-This script is a bridge between PowerShell and AppleScript's "Choose File" UI primitive.
-It allows the use of the standard macOS Choose File dialog inside a PowerShell script and
-returns a string array of POSIX-Compliant file paths. 
+This script is a bridge between PowerShell and AppleScript's "Choose File" UI primitive. It allows the use of the standard macOS Choose File dialog inside a PowerShell script and returns a string array of POSIX-Compliant file paths. 
 
 .DESCRIPTION
 This module takes advantage of piping commands to /usr/bin/osascript to allow powershell to use AppleScript's Choose File function,
