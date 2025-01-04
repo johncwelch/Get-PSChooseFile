@@ -1,6 +1,75 @@
 #!/usr/bin/env pwsh
 
-<#help goes here#>
+<#
+.SYNOPSIS
+This script is a bridge between PowerShell and AppleScript's "Choose File" UI primitive.
+It allows the use of the standard macOS Choose File dialog inside a PowerShell script and
+returns a string array of POSIX-Compliant file paths. 
+
+.DESCRIPTION
+This module takes advantage of piping commands to /usr/bin/osascript to allow powershell to use AppleScript's Choose File function,
+(https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/PromptforaFileorFolder.html for more details)
+
+As with some of the other modules in this series, this attempts to plug a hole in PowerShell
+on macOS by allowing access to things that are useful in a GUI, like user input, or choosing
+a file or files.
+
+This module takes advantage of osascript's ability to run AppleScript from the Unix shell environment. 
+There are a number of parameters you can use with this, (in -Detailed) to customize the dialog. 
+There is no required parameter, so just running Get-ChooseFile will give you a basic Choose File dialog.
+
+All Choose File parameters are currently supported,
+however the list that is the extension/file type -> Type Identifer is is *long*, 
+(https://github.com/johncwelch/Get-PSChooseFile/blob/main/typeidentifierlist.csv) if you wish.
+
+Use Get-Help Get-ChooseFile - Detailed for Parameter List
+
+"Normally", there's one error that is thrown by design: if you hit "Cancel" in the choose file
+dialog, the script will return userCancelError. It's not returned as an *error* but as a string
+because it's not an error per se. The user hitting cancel is a viable correct option, so returning
+userCancelError allows you to manage that better.
+
+Note that PowerShell is case insensitive, so the parameters are as well
+
+.EXAMPLE
+Basic Choose File: Get-ChooseFile
+That will give you a dialog that lets you choose a single file
+
+Choose File with custom prompt: 
+     Get-ChooseFile -chooseFilePrompt "My Custom Prompt"
+
+Choose file starting in a specified folder: 
+     Get-ChooseFile -defaultLocation "Some unix path"
+Note that with the default location parameter, you shouldn't have to escape spaces, single quotes
+etc. Since this is expecting double quotes around the string, if you use a double quote in the
+file path, you'd have to escape it. HOWEVER, this is WHERE IT GETS WEIRD, because you have to 
+combine unix AND PowerShell escaping.
+
+For Example, say the path you want to pass is: /Users/username/Pictures/Bill"s amazing pictures
+to get that to work, you'd have to enter: "/Users/username/Pictures/Bill\`"s amazing pictures"
+because that will allow PowerShell to escape the double quote 
+and pass the string: "/Users/username/Pictures/Bill\"s amazing pictures" to the unix command
+
+Try to avoid this, but if you can't, then the order is "PowerShell escape the string so Powershell 
+passes a Unix-escaped string to the Unix command". If it makes your head hurt, JOIN THE CLUB
+
+Choose file showing invisible files:
+     Get-ChooseFile -showInvisibles $true
+The default for show invisibles is false. Note that in PowerShell, $true is True, $false is False
+using those without the $ will create a null-valued expression. The $ is IMPORTANT for bools
+
+Choose file allowing multiple selections:
+     Get-ChooseFile -multipleSelectionsAllowed $true
+The default is false, it's a bool, so $true/$false
+
+Choose file filtering by specific file types:
+     Get-ChooseFile -fileTypes "pdf","word","tiff"
+The default is nothing. This is actually a string array, so make this easy on yourself and don't
+get too clever. The thing you want to pass is either the filename extension without the dot,
+so "tiff" or "jpeg" or "mp3". You can in some cases pass old school file types like "W8BN" for
+pre-xml word files, etc. There's a CSV with the full list of extensions this suppors
+
+#>
 
 function buildASTypeIdentifierList {
 	Param (
