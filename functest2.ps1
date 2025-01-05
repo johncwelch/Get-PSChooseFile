@@ -1,3 +1,10 @@
+#!/usr/bin/env pwsh
+
+<#
+.SYNOPSIS
+This script is a bridge between PowerShell and the AppleScript Choose File UI primitive. It allows the use of the standard macOS Choose File dialog inside a PowerShell script and returns a string array of POSIX-Compliant file paths.
+#>
+
 function testFunc {
 	Param (
 		[Parameter(Mandatory = $false)][string[]] $fileTypes
