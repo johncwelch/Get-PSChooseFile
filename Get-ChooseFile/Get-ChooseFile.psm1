@@ -1,10 +1,10 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 
 function buildASTypeIdentifierList {
 	Param (
 		[Parameter(Mandatory = $false)][string[]] $fileTypes
 	)
-	
+
 	#we only really care if there's more than zero items in $fileTypes
 	if ($fileTypes.Count -gt 0) {
 
@@ -3269,8 +3269,8 @@ function buildASTypeIdentifierList {
 				}
 
 				"photobooth" {
-					$fileTypeArrayList.Add("com.apple.photo-booth-library") |Out-Null	
-				}	
+					$fileTypeArrayList.Add("com.apple.photo-booth-library") |Out-Null
+				}
 
 				"photo-edit" {
 					$fileTypeArrayList.Add("com.pixelmatorteam.pixelmator-photo-edit.document.binary") |Out-Null
@@ -5629,17 +5629,17 @@ function buildASTypeIdentifierList {
 				}
 			}
 		}
-		
+
 		#now we build the applescript list of type identifiers
 		$typeIdentifierASList = "{"
 
 		#loop through $fileTypeArrayList and add the type (identifier) of each entry on to the end of the list,
 		#with enclosing quotes in the list (necessary for an AppleScript list of text items) and a trailing comma
 		foreach($item in $fileTypeArrayList) {
-			#$item.type 
+			#$item.type
 			$typeIdentifierASList = $typeIdentifierASList + "`"" + $item +"`","
 		}
-		
+
 		#since we'll always have a spurious trailing comma, we trim that off the end of the string
 		$typeIdentifierASList = $typeIdentifierASList.TrimEnd(",")
 
@@ -5664,7 +5664,7 @@ As with some of the other modules in this series, this attempts to plug a hole i
 
 This module takes advantage of osascript's ability to run AppleScript from the Unix shell environment. There are a number of parameters you can use with this, (in -Detailed) to customize the dialog. There is no required parameter, so just running Get-ChooseFile will give you a basic Choose File dialog.
 
-All Choose File parameters are currently supported, however the list that is the extension/file type -> Type Identifer is is *long*, 
+All Choose File parameters are currently supported, however the list that is the extension/file type -> Type Identifer is is *long*,
 (https://github.com/johncwelch/Get-PSChooseFile/blob/main/typeidentifierlist.csv) if you wish.
 
 Use Get-Help Get-ChooseFile - Detailed for Parameter List
@@ -5684,11 +5684,11 @@ Basic Choose File: Get-ChooseFile
 That will give you a dialog that lets you choose a single file
 
 .EXAMPLE
-Choose File with custom prompt: 
+Choose File with custom prompt:
      Get-ChooseFile -chooseFilePrompt "My Custom Prompt"
 
 .EXAMPLE
-Choose file starting in a specified folder: 
+Choose file starting in a specified folder:
      Get-ChooseFile -defaultLocation "Some unix path"
 Note that with the default location parameter, you shouldn't have to escape spaces, single quotes etc. Since this is expecting double quotes around the string, if you use a double quote in the file path, you'd have to escape it. HOWEVER, this is WHERE IT GETS WEIRD, because you have to combine unix AND PowerShell escaping.
 
@@ -5775,20 +5775,20 @@ https://github.com/johncwelch/Get-PSChooseFile
 	}
 
 	if($multipleSelectionsAllowed) {
-		#multiple selections allowed is true. This syntax seems awkward, but you can have multiple boolean "with" clauses in 
+		#multiple selections allowed is true. This syntax seems awkward, but you can have multiple boolean "with" clauses in
 		#a choose file statement. It works for osascript and it's quite consistent.
 		$chooseFileCommand = $chooseFileCommand + "with multiple selections allowed "
 	}
 
 	#if it's zero, we don't care
 	if($fileTypes.Count -gt 0) {
-	
+
 		#get the AppleScript List of Type Identifiers
 		$appleScriptTypeIdentifierList = buildASTypeIdentifierList -fileTypes $fileTypes
 
 		#add this to the choose file command
 		$chooseFileCommand = $chooseFileCommand + "of type $appleScriptTypeIdentifierList "
-	} 
+	}
 
 	if($showPackageContents) {
 		#we only care if showing package contents is true, the default is false, so we don't need to gode for that
